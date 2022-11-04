@@ -4,6 +4,15 @@ Author: Rylee Alanza Lyman
 
 hard clipping distortion
 
+### Usage
+
+```supercollider
+{ CADAA.ar(5 * SinOsc.ar(440))[0].dup }.play;
+```
+
+Note the `[0]`: CADAA introduces two samples of delay into its input,
+so the first output is the "wet" signal and the second output is the "dry" signal.
+
 ### Requirements
 
 - CMake >= 3.5
