@@ -1,10 +1,12 @@
-CADAA : UGen {
-	*ar { |input, gain|
-		/* TODO */
-		^this.multiNew('audio', input, gain);
+CADAA : MultiOutUGen {
+	*ar { |input|
+		^this.multiNew('audio', input);
 	}
+  init { arg ... theInputs;
+    inputs = theInputs;
+    ^this.initOutputs(2, rate);
+  }
 	checkInputs {
-		/* TODO */
 		^this.checkValidInputs;
 	}
 }

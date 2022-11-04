@@ -1,7 +1,7 @@
 class:: CADAA
 summary:: hard clipping distortion
-related:: TODO
-categories:: UGens>TODO
+related:: Clip
+categories:: UGens>Dynamics
 
 description::
 
@@ -10,17 +10,17 @@ hard clipping distortion
 
 classmethods::
 
-method::ar, kr
+method::ar
 
-argument::TODO
+argument::input
 
-argument::TODO
+argument::input
 
 
 examples::
 
 code::
 
-{ CADAA.ar(/* TODO */) }.play
+{ CADAA.ar(SinOsc.ar(freq:440.0) * 2)[0] }.play
 
 ::
