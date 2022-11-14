@@ -37,12 +37,12 @@ build_script:
 
 artifacts:
 - path: build\_install
-  name: cadaa-windows-$(ARCH)-$(APPVEYOR_REPO_TAG_NAME)
+  name: dadaa-windows-$(ARCH)-$(APPVEYOR_REPO_TAG_NAME)
 
 # deploy:
 # - provider: GitHub
 #   description: hard clipping distortion - Release $(APPVEYOR_REPO_TAG_NAME)
-#   artifact: cadaa-windows-$(ARCH)-$(APPVEYOR_REPO_TAG_NAME)
+#   artifact: dadaa-windows-$(ARCH)-$(APPVEYOR_REPO_TAG_NAME)
 #   auth_token:
 #       secure: YOUR_TOKEN_HERE
 #   on:
