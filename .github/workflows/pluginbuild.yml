@@ -25,9 +25,9 @@ jobs:
       SC_PATH: ${{ github.workspace }}/supercollider
       BUILD_PATH: ${{ github.workspace }}/build
       INSTALL_PATH: ${{ github.workspace }}/build/Install
-      ARCHIVE_NAME: CADAA-${{ matrix.name }}.zip
+      ARCHIVE_NAME: DADAA-${{ matrix.name }}.zip
     steps:
-    - name: Checkout CADAA
+    - name: Checkout DADAA
       uses: actions/checkout@v2
 
     - name: Checkout SuperCollider
