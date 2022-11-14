@@ -1,1 +1,1 @@
-python /Users/Rylee/src/SuperCollider/tools/cmake_gen/generate_server_plugin_cmake.py -P "CADAA" -p "plugins/CADAA" -a "Rylee Alanza Lyman"
+python /Users/Rylee/src/SuperCollider/tools/cmake_gen/generate_server_plugin_cmake.py -P "DADAA" -p "plugins/DADAA" -a "Rylee Alanza Lyman"
