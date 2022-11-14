@@ -1,16 +1,17 @@
-# CADAA
+# DADAA
 
 Author: Rylee Alanza Lyman
 
-hard clipping distortion
+anti-derivative anti-aliasing distortions
 
 ### Usage
 
 ```supercollider
-{ CADAA.ar(5 * SinOsc.ar(440))[0].dup }.play;
+{ CADAA.ar(SinOsc.ar(440), 6)[0].dup }.play;
+{ TADAA.ar(SinOsc.ar(440), 6)[0].dup }.play;
 ```
 
-Note the `[0]`: CADAA introduces two samples of delay into its input,
+Note the `[0]`: CADAA and TADAA introduce two samples of delay into their inputs,
 so the first output is the "wet" signal and the second output is the "dry" signal.
 
 ### Requirements
@@ -22,8 +23,8 @@ so the first output is the "wet" signal and the second output is the "dry" signa
 
 Clone the project:
 
-    git clone https://github.com/ryleelyman/cadaa
-    cd cadaa
+    git clone https://github.com/ryleelyman/dadaa
+    cd dadaa
     mkdir build
     cd build
 
