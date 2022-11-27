@@ -24,30 +24,3 @@ code::
 { TADAA.ar(SinOsc.ar(freq:440.0), 2)[0] }.play
 
 ::
-
-class:: CADAA
-summary:: hard clipping distortion
-related:: Clip
-categories:: UGens>Dynamics
-
-description::
-
-hard clipping distortion
-
-
-classmethods::
-
-method::ar
-
-argument::input, gain
-
-argument::input, gain
-
-
-examples::
-
-code::
-
-{ CADAA.ar(SinOsc.ar(freq:440.0), 2)[0] }.play
-
-::

@@ -1,6 +1,6 @@
 TADAA : MultiOutUGen {
 	*ar { |input, gain|
-		^this.multiNew('audio', input);
+		^this.multiNew('audio', input, gain);
 	}
   init { arg ... theInputs;
     inputs = theInputs;
@@ -13,7 +13,7 @@ TADAA : MultiOutUGen {
 
 CADAA : MultiOutUGen {
 	*ar { |input, gain|
-		^this.multiNew('audio', input);
+		^this.multiNew('audio', input, gain);
 	}
   init { arg ... theInputs;
     inputs = theInputs;

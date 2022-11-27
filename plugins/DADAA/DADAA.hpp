@@ -8,6 +8,87 @@
 
 namespace DADAA {
 
+// difference quotient
+inline double d1(double in1, double in2, double mEps, double (*w4)(double), double (*w3)(double)) {
+  double delta = in1 - in2;
+  if (abs(delta) > mEps) {
+    return (w4(in1) - w4(in2)) / delta;
+  } else {
+    return w3(0.5f * (in1 + in2));
+  }
+}
+// differential operator
+inline double d2(double in1, double in2, double in3, double mEps,
+                 double (*w4)(double), double (*w3)(double), double (*w2)(double)) {
+  double delta = in1 - in3;
+  double barx = 0.5f * (in1 + in3);
+  double deldelta = barx - in2;
+  if (abs(delta) > mEps) {
+    return 2.f * (d1(in1, in2, mEps, w4, w3) - d1(in2, in3, mEps, w4, w3)) / delta;
+  } else if (abs(deldelta) > mEps) {
+    return 2.f * (w3(barx) + (w4(in2) - w4(barx)) / deldelta) / deldelta;
+  } else {
+    return w2(0.5f * (barx + in2));
+  }
+}
+// differential operator
+inline double d3(double in1, double in2, double in3, double in4, double mEps,
+                 double (*w4)(double), double (*w3)(double), double (*w2)(double), double (*w1)(double)) {
+  double delta = in1 - in4;
+  double deldelta = in2 - in3;
+  double barx = 0.5f * (in1 + in4);
+  double barbarx = 0.5f * (in2 + in3);
+  double deldeldelta = barbarx - barx;
+  if (abs(delta) > mEps) {
+    return 3.f * (d2(in1, in2, in3, mEps, w4, w3, w2) - d2(in2, in3, in4, mEps, w4, w3, w2)) / delta;
+  } else if (abs(deldelta) > mEps) {
+    double part1 = 6.f * ((w4(in2) - w4(barx)) / ((in2 - barx) * (in2 - barx)) - (w4(in3) - w4(barx)) / ((in3 - barx) * (in3 - barx))) / deldelta;
+    double part2 = 6.f * w3(barx) / ((in2 - barx) * (in3 - barx));
+    return part1 + part2;
+  } else if (abs(deldeldelta) > mEps) {
+    return 6.f * (w3(barx) + w3(barbarx)) / (deldeldelta * deldeldelta) + 12.f * (w4(barbarx) - w4(barx)) / (deldeldelta * deldeldelta * deldeldelta);
+  } else {
+    return w1(0.5f * (barx + barbarx));
+  }
+}
+// differential operator
+inline double d4(double in1, double in2, double in3, double in4, double in5, 
+                 double mEps, double (*w4)(double), double (*w3)(double), 
+                 double (*w2)(double), double (*w1)(double), double (*w0)(double)) {
+  double delta = in1 - in5;
+  double deldelta = in2 - in4;
+  double barx = 0.5f * (in1 + in5);
+  double barbarx = 0.5f * (in2 + in4);
+  double deldeldelta = barbarx - barx;
+  double primex = 0.5f * (barbarx + barx);
+  double deldeldeldelta = primex - in3;
+  if (abs(delta) > mEps) {
+    return 4.f * (d3(in1, in2, in3, in4, mEps, w4, w3, w2, w1) 
+      - d3(in2, in3, in4, in5, mEps, w4, w3, w2, w1)) / delta;
+  } else if (abs(deldelta) > mEps) {
+    double part1 = 24.f * (w4(in2) / ((barx - in2) * (barx - in2) * (in2 - in3))
+      + w4(in4) / ((barx - in4) * (barx - in4) * (in3 - in4))) / (in2 - in4);
+    double part2 = 24.f * w4(in3) / ((barx - in3) * (barx - in3) * (in2 - in3) * (in3 - in4));
+    double part3 = 24.f * (w3(barx) - w4(barx) * (1/(barx - in2) + 1/(barx - in3) + 1/(barx - in4)))
+      / ((barx - in2) * (barx - in3) * (barx - in4));
+    return part1 - part2 + part3;
+  } else if (abs(deldeldelta) > mEps) {
+    double part1 = 24.f * (w3(barbarx) / (barbarx - in3) + w3(barx) / (barx - in3) 
+      + (w4(barbarx) - w4(barx)) / ((barx - in3) * (barx - in3)) 
+      - 2.f * (w4(barbarx) - w4(barx)) / ((barx - in3) * (barbarx - barx)));
+    double part2 = 24.f * (w4(in3) - w4(barbarx)) / ((barbarx - in3) * (barbarx - in3) * (barx - in3) * (barx - in3));
+    return part1 + part2;
+  } else if (abs(deldeldeldelta) > mEps) {
+    double part1 = 4.f * w1(primex) / deldeldeldelta;
+    double part2 = 12.f * w2(primex) / (deldeldeldelta * deldeldeldelta);
+    double part3 = 24.f * w3(primex) / (deldeldeldelta * deldeldeldelta * deldeldeldelta);
+    double part4 = 24.f * (w4(in3) - w4(primex)) / (deldeldeldelta * deldeldeldelta * deldeldeldelta * deldeldeldelta);
+    return part1 - part2 + part3 + part4;
+  } else {
+    return w0(0.5f * (primex + in3));
+  }
+}
+
 class TADAA : public SCUnit {
 public:
   TADAA();
@@ -65,7 +146,7 @@ private:
     }
     return out / 120.f;
   }
-  /* // second anti-derivative
+  // second anti-derivative
   static inline double waveshape2(double in) {
     double out;
     if (in < -3.f) {
@@ -105,7 +186,6 @@ private:
     }
     return out / 24.f;
   }
-  */
   // trivial waveshaper
   static inline double waveshape0(double in) {
     double out;
@@ -124,41 +204,8 @@ private:
     }
     return out;
   }
-    // differential operator
-    inline double d4(double in1, double in2, double in3, double in4, double in5) {
-      double delta = in1 - in5;
-      if (abs(delta) > mEps) {
-        return 4.f * (d3(in1, in2, in3, in4) - d3(in2, in3, in4, in5)) / delta;
-      }
-      else {
-        double barx = 0.5f * (in1 + in5);
-      double part1 = 24.f * (waveshape4(in2) / ((barx - in2) * (barx - in2) * (in2 - in3))
-        + waveshape4(in4) / ((barx - in4) * (barx - in4) * (in3 - in4))) / (in2 - in4);
-      double part2 = 24.f * waveshape4(in3) / ((barx - in3) * (barx - in3) * (in2 - in3) * (in3 - in4));
-      double part3 = 24.f * (waveshape3(barx) 
-        - waveshape4(barx) * (1/(barx - in2) + 1/(barx - in3) + 1/(barx - in4))) 
-        / ((barx - in2) * (barx - in3) * (barx - in4));
-        return part1 + part2 + part3;
-      }
-    }
-    // differential operator
-    inline double d3(double in1, double in2, double in3, double in4) {
-      double delta = in1 - in4;
-      return 3.f * (d2(in1, in2, in3) - d2(in2, in3, in4)) / delta;
-    }
-    // differential operator
-    inline double d2(double in1, double in2, double in3) {
-      double delta = in1 - in3;
-      return 2.f * (d1(in1, in2) - d1(in2, in3)) / delta;
-    }
-    // difference quotient
-    inline double d1(double in1, double in2) {
-      double delta = in1 - in2;
-      return (waveshape4(in1) - waveshape4(in2)) / delta;
-    }
     // Calc function
-    void next_k(int nSamples);
-    void next_a(int nSamples);
+    void next(int nSamples);
 
     // Member variables
     const double mEps = 0.0001;
@@ -209,7 +256,7 @@ private:
       }
       return out / 24.f;
     }
-    /*// second anti-derivative
+    // second anti-derivative
     static inline double waveshape2(double in) {
       double out;
       if (in < -1.f) {
@@ -241,7 +288,6 @@ private:
       }
       return out / 2.f;
     }
-  */
     // trivial waveshaper
     static inline double waveshape0(double in) {
       if (in < -1.f) {
@@ -254,52 +300,11 @@ private:
         return 1.f;
       }
     }
-    // returns true if all samples are either less than 1.f in absolute value
-    // or if all samples are greater than 1.f in absolute value
-    inline bool check(double nn, double n, double c, double l, double ll) {
-      bool check1 = (abs(nn) <= 1.f) && (abs(n) <= 1.f) && (abs(c) <= 1.f) && (abs(l) <= 1.f) && (abs(ll) <= 1.f);
-      bool check2 = (nn >= 1.f) && (n >= 1.f) && (c >= 1.f) && (l >= 1.f) && (ll >= 1.f);
-      bool check3 = (nn <= -1.f) && (n <= -1.f) && (c <= -1.f) && (l <= -1.f) && (ll <= -1.f);
-      return check1 || check2 || check3;
-    }
-    // differential operator
-    inline double d4(double in1, double in2, double in3, double in4, double in5) {
-      double delta = in1 - in5;
-      if (abs(delta) > mEps) {
-        return 4.f * (d3(in1, in2, in3, in4) - d3(in2, in3, in4, in5)) / delta;
-      }
-      else {
-        double barx = 0.5f * (in1 + in5);
-      double part1 = 24.f * (waveshape4(in2) / ((barx - in2) * (barx - in2) * (in2 - in3))
-        + waveshape4(in4) / ((barx - in4) * (barx - in4) * (in3 - in4))) / (in2 - in4);
-      double part2 = 24.f * waveshape4(in3) / ((barx - in3) * (barx - in3) * (in2 - in3) * (in3 - in4));
-      double part3 = 24.f * (waveshape3(barx) 
-        - waveshape4(barx) * (1/(barx - in2) + 1/(barx - in3) + 1/(barx - in4))) 
-        / ((barx - in2) * (barx - in3) * (barx - in4));
-        return part1 + part2 + part3;
-      }
-    }
-    // differential operator
-    inline double d3(double in1, double in2, double in3, double in4) {
-      double delta = in1 - in4;
-      return 3.f * (d2(in1, in2, in3) - d2(in2, in3, in4)) / delta;
-    }
-    // differential operator
-    inline double d2(double in1, double in2, double in3) {
-      double delta = in1 - in3;
-      return 2.f * (d1(in1, in2) - d1(in2, in3)) / delta;
-    }
-    // difference quotient
-    inline double d1(double in1, double in2) {
-      double delta = in1 - in2;
-      return (waveshape4(in1) - waveshape4(in2)) / delta;
-    }
     // Calc function
-    void next_k(int nSamples);
-    void next_a(int nSamples);
+    void next(int nSamples);
 
     // Member variables
-    const double mEps = 0.0001;
+    const double mEps = 0.00001;
     double mNextNext = 0;
     double mNext = 0;
     double mCurrent = 0;
