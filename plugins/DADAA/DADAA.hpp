@@ -100,106 +100,117 @@ private:
   static inline double waveshape4(double in) {
     double out;
     if (in < -3.f) {
-      double x = in + 3.f;
-      out = -35.f * x * x * x * x + 980.f * x * x * x / 3.f - 4781.f * x * x / 4.f
-        + 2009.f * x - 62281.f / 48.f;
+      // y = -x^4/24 - 2x^3/18 - 83x^2/480 - 7x/48 - 2053/40320
+      out = -in * in * in * in / 24.f - 2.f * in * in * in / 18.f - 83.f * in * in / 480.f - 7.f * in / 48.f - 2053.f / 40320.f;
     } else if (in < -0.5f) {
       double x = in + 0.5f;
-      out = 19.f * x * x * x * x * x * x * x / 375.f + 119.f * x * x * x * x * x * x / 150.f
-        + 21.f * x * x * x * x * x / 4.f - 385.f * x * x * x * x / 24.f 
-        + 805.f * x * x * x / 48.f - 273.f * x * x / 32.f + 413.f * x / 192.f - 83.f / 384.f;
+      // y = 19x^7/315000 + 17x^6/18000 + 3x^5/480 - 11x^4/576 + 23x^3/1152 - 13x^2/1280 + 59x/23040 - 83/322560
+      out = 19.f * x * x * x * x * x * x * x / 315000.f + 17.f * x * x * x * x * x * x / 18000.f
+        - 11.f * x * x * x * x / 576.f + 23.f * x * x * x / 1152.f - 13.f * x * x / 1280.f + 59.f * x / 23040.f - 83.f / 322560.f;
     } else if (in < 0.5f) {
-      out = 7.f * in * in * in * in * in - in * in * in * in * in * in *in / 3.f;
+      // y = x^5/120 - x^7/2520
+      out = in * in * in * in * in / 120.f - in * in * in * in * in * in * in / 2520.f;
     } else if (in < 3.f) {
       double x = in - 0.5f;
-      out = 19.f * x * x * x * x * x * x * x / 375.f - 119.f * x * x * x * x * x * x / 150.f
-        + 21.f * x * x * x * x * x / 4.f + 385.f * x * x * x * x / 24.f
-        + 805.f * x * x * x / 48.f + 273.f * x * x / 32.f + 413.f * x / 192.f + 83.f / 384.f;
+      // y = 19x^7/315000 - 17x^6/18000 + 3x^5/480 + 11x^4/576 + 23x^3/1152 + 13x^2/1280 + 59x/23040 + 83/322560
+      out = 19.f * x * x * x * x * x * x * x / 315000.f - 17.f * x * x * x * x * x * x / 18000.f
+        + 11.f * x * x * x * x / 576.f + 23.f * x * x * x / 1152.f + 13.f * x * x / 1280.f + 59.f * x / 23040.f + 83.f / 322560.f;
     } else {
-      double x = in - 3.f;
-      out = 35.f * x * x * x * x + 980.f * x * x * x / 3.f + 4781.f * x * x / 4.f 
-        + 2009.f * x + 62281.f / 48.f;
+      // y = x^4/24 - 2x^3/18 + 83x^2/480 - 7x/48 + 2053/40320
+      out = in * in * in * in / 24.f - 2.f * in * in * in / 18.f + 83.f * in * in / 480.f - 7.f * in / 48.f + 2053.f / 40320.f;
     }
-    return out / 840.f;
+    return out;
   }
   // third anti-derivative
   static inline double waveshape3(double in) {
     double out;
     if (in < -3.f) {
-      double x = in + 3.f;
-      out = -20.f * x * x * x + 140.f * x * x - 683.f * x / 2.f + 287.f;
+      // y = -x^3/6 - 2x^2/6 - 83x/240 - 7/48
+      out = -in * in * in / 6.f - 2.f * in * in / 6.f - 83.f * in / 240.f - 7.f / 48.f;
     } else if (in < -0.5f) {
       double x = in + 0.5f;
-      out = 19.f * x * x * x * x * x * x / 375.f + 17.f * x * x * x * x * x / 25.f
-        + 15.f * x * x * x * x / 4.f - 55.f * x * x * x / 6.f + 115.f * x * x / 16.f
-        - 39.f * x / 16.f + 59.f / 192.f;
+      // y = 19x^6/45000 + 17x^5/3000 + 3x^4/96 - 11x^3/144 + 23x^2/384 - 13x/640 + 59/23040
+      out = 19.f * x * x * x * x * x * x / 45000.f + 17.f * x * x * x * x * x / 3000.f 
+        + 3.f * x * x * x * x / 144.f - 11.f / 144.f * x * x * x + 23.f / 384.f * x * x - 13.f * x / 640.f + 59.f / 23040.f;
     } else if (in < 0.5f) {
-      out = 5.f * in * in * in * in - in * in * in * in * in * in / 3.f;
+      // y = x^4/24 - x^6/360
+      out = in * in * in * in / 24.f - in * in * in * in * in * in / 360.f;
     } else if (in < 3.f) {
       double x = in - 0.5f;
-      out = 19.f * x * x * x * x * x * x / 375.f - 17.f * x * x * x * x * x / 25.f
-        + 15.f * x * x * x * x / 4.f + 55.f * x * x * x / 6.f + 115.f * x * x / 16.f
-        + 39.f * x / 16.f + 59.f / 192.f;
+      // y = 19x^6/45000 - 17x^5/3000 + 3x^4/96 + 11x^3/144 + 23x^2/384 + 13x/640 + 59/23040
+      out = 19.f * x * x * x * x * x * x / 45000.f - 17.f * x * x * x * x * x / 3000.f 
+        + 3.f * x * x * x * x / 144.f + 11.f / 144.f * x * x * x + 23.f / 384.f * x * x + 13.f * x / 640.f + 59.f / 23040.f;
     } else {
-      double x = in - 3.f;
-      out = 20.f * x * x * x + 140.f * x * x + 683.f * x / 2.f + 287.f;
+      // y = x^3/6 - 2x^2/6 + 83x/240 - 7/48
+      out = in * in * in / 6.f - 2.f * in * in / 6.f + 83.f * in / 240.f - 7.f / 48.f;
     }
-    return out / 120.f;
+    return out;
   }
   // second anti-derivative
   static inline double waveshape2(double in) {
     double out;
     if (in < -3.f) {
-      double x = in + 3.f;
-      out = -60.f * x * x + 280.f * x - 683.f / 2.f;
+      // y = -x^2/2 - 2x/3 - 83/240
+      out = -in * in / 2.f - 2.f * in / 3.f - 83.f / 240.f;
     } else if (in < -0.5f) {
       double x = in + 0.5f;
-      out = 38.f * x * x * x * x * x / 125.f + 17.f * x * x * x * x / 5.f + 15.f * x * x * x - 55.f * x * x / 2.f + 115.f * x / 8.f - 39.f / 16.f;
+      // y = 19x^5/7500 + 17x^4/600 + 3x^3/24 - 11x^2/48 + 23x/192 - 13/640
+      out = 19.f * x * x * x * x * x / 7500.f + 17.f * x * x * x * x / 600.f + 3.f * x * x * x / 24.f - 11.f / 48.f * x * x + 23.f / 192.f * x - 13.f / 640.f;
     } else if (in < 0.5f) {
-      out = 20.f * in * in * in - 2.f * in * in * in * in * in;
+      // y = x^3/6 - x^5/60
+      out = in * in * in / 6.f - in * in * in * in * in / 60.f;
     } else if (in < 3.f) {
       double x = in - 0.5f;
-      out = 38.f * x * x * x * x * x / 125.f - 17.f * x * x * x * x / 5.f + 15.f * x * x * x + 55.f * x * x / 2.f + 115.f * x / 8.f + 39.f / 16.f;
+      // y = 19x^5/7500 - 17x^4/600 + 3x^3/24 + 11x^2/48 + 23x/192 + 13/640
+      out = 19.f * x * x * x * x * x / 7500.f - 17.f * x * x * x * x / 600.f + 3.f * x * x * x / 24.f + 11.f / 48.f * x * x + 23.f / 192.f * x + 13.f / 640.f;
     } else {
-      double x = in - 3.f;
-      out = 60.f * x * x + 280.f * x + 683.f / 2.f;
+      // y = x^2/2 - 2x/3 + 83/240
+      out = in * in / 2.f - 2.f * in / 3.f + 83.f / 240.f;
     }
-    return out / 120.f;
+    return out;
   }
   // anti-derivative
   static inline double waveshape1(double in) {
     double out;
     if (in < -3.f) {
-      double x = in + 3.f;
-      return -24.f * x + 56.f;
+      // y = -x - 2/3
+      out = -in - 2.f / 3.f;
     } else if (in < -0.5f) {
       double x = in + 0.5f;
-      out = 38.f * x * x * x * x / 125.f + 68.f * x * x * x / 25.f + 9.f * x * x - 11.f * x + 23.f / 8.f;
+      // y = 19x^4/1500 + 17x^3/150 + 3x^2/8 - 11x/24 + 23/192
+      out = 19.f * x * x * x * x / 1500.f + 17.f * x * x * x / 150.f + 3.f * x * x / 8.f - 11.f / 24.f * x + 23.f / 192.f;
     } else if (in < 0.5f) {
-      out = 12.f * in * in - 2.f * in * in * in * in;
+      // y = x^2/2 - x^4/12
+      out = in * in / 2.f - in * in * in * in / 12.f;
     } else if (in < 3.f) {
       double x = in - 0.5f;
-      out = 38.f * x * x * x * x / 125.f - 68.f * x * x * x / 25.f + 9.f * x * x + 11.f * x + 23.f / 8.f;
+      // y = 19x^4/1500 - 17x^3/150 + 3x^2/8 + 11x/24 + 23/192
+      out = 19.f * x * x * x * x / 1500.f - 17.f * x * x * x / 150.f + 3.f * x * x / 8.f + 11.f / 24.f * x + 23.f / 192.f;
     } else {
-      double x = in - 3.f;
-      out = 24.f * x + 56.f;
+      // y = x - 2/3
+      out = in - 2.f / 3.f;
     }
-    return out / 24.f;
+    return out;
   }
   // trivial waveshaper
   static inline double waveshape0(double in) {
     double out;
     if (in < -3.f) {
+      // y = 1
       out = -1.f;
     } else if (in < -0.5f) {
       double x = in + 0.5f;
+      // y = 19x^3/375 + 17x^2/50 + 3x/4 - 11/24
       out = 19.f * x * x * x / 375.f + 17.f * x * x / 50.f + 0.75f * x - 11.f / 24.f;
     } else if (in < 0.5f) {
+      // y = x - x^3/3
       out = in - in * in * in / 3.f;
     } else if (in < 3.f) {
       double x = in - 0.5f;
-      out = 19.f * x * x * x / 375.f + 17.f * x * x / 50.f + 0.75f * x + 11.f / 24.f;
+      // y = 19x^3/375 - 17x^2/50 + 3x/4 + 11/24
+      out = 19.f * x * x * x / 375.f - 17.f * x * x / 50.f + 0.75f * x + 11.f / 24.f;
     } else {
+      // y = 1
       out = 1.f;
     }
     return out;
