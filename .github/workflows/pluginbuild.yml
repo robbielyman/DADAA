@@ -67,7 +67,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: bash
       working-directory: ${{ env.INSTALL_PATH }}
-      run: 7z a "$ARCHIVE_NAME" -tzip "CADAA"
+      run: 7z a "$ARCHIVE_NAME" -tzip "DADAA"
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
