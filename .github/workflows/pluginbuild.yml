@@ -13,13 +13,13 @@ jobs:
         include:
 
           - name: macOS
-            os: macos-10.15
+            os: macos-latest
 
           - name: Linux-x64
-            os: ubuntu-18.04
+            os: ubuntu-latest
 
           - name: Windows-x64
-            os: windows-2019
+            os: windows-latest
 
     env:
       SC_PATH: ${{ github.workspace }}/supercollider
@@ -67,7 +67,7 @@ jobs:
       if: runner.os == 'Windows'
       shell: bash
       working-directory: ${{ env.INSTALL_PATH }}
-      run: 7z a "$ARCHIVE_NAME" -tzip "CADAA"
+      run: 7z a "$ARCHIVE_NAME" -tzip "DADAA"
 
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
